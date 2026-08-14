@@ -11,6 +11,10 @@ from bs4 import BeautifulSoup
 soup = BeautifulSoup(response.text, "html.parser")
 listings = soup.find_all("a", class_="list_a")
 
+KEYWORDS = ["devops", "cloud", "sysadmin", "sre", "platform", "kubernetes", "administratorius"]
+
 for listing in listings:
     title = listing.find("h3", class_="list_h3")
-    print(title.text.strip(), "->", listing["href"])
+    title_text = title.text.strip()
+    if any(keyword in title_text.lower() for keyword in KEYWORDS):
+        print(title_text, "->", listing["href"])
